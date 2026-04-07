@@ -14,12 +14,12 @@ const RoleReveal: React.FC<Props> = ({ player, onConfirm }) => {
   const color = ROLE_COLORS[player.role];
   const icon = ROLE_ICONS[player.role];
 
-  const roleDescriptions: Record<string, string> = {
+  const roleDescriptions: Record<string, string> = React.useMemo(() => ({
     Villager: t.villagerDesc,
     Werewolf: t.werewolfDesc,
     Seer: t.seerDesc,
     Doctor: t.doctorDesc,
-  };
+  }), [t]);
 
   return (
     <div className="role-reveal-overlay">

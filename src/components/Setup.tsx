@@ -23,12 +23,12 @@ const Setup: React.FC<Props> = ({ onStart, onOpenSettings }) => {
 
   const roles: Array<Role | 'random'> = ['random', 'Villager', 'Werewolf', 'Seer', 'Doctor'];
 
-  const roleDescriptions: Record<Role, string> = {
+  const roleDescriptions: Record<Role, string> = React.useMemo(() => ({
     Villager: t.villagerDesc,
     Werewolf: t.werewolfDesc,
     Seer: t.seerDesc,
     Doctor: t.doctorDesc,
-  };
+  }), [t]);
 
   const getRoleName = (role: Role | 'random'): string => {
     if (role === 'random') return t.random;
