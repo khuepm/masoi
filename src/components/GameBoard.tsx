@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
+import { useLanguage } from '../context/LanguageContext';
 import { Player } from '../types/game';
 import PlayerCard from './PlayerCard';
 import GameLog from './GameLog';
@@ -7,7 +8,12 @@ import { ROLE_COLORS, ROLE_ICONS, MAX_DEBATE_TURNS } from '../utils/constants';
 import { getAlivePlayers } from '../utils/gameLogic';
 import './GameBoard.css';
 
-const GameBoard: React.FC = () => {
+interface Props {
+  onOpenSettings: () => void;
+}
+
+const GameBoard: React.FC<Props> = ({ onOpenSettings }) => {
+  const { t } = useLanguage();
   const {
     state,
     performNightAction,
@@ -63,12 +69,12 @@ const GameBoard: React.FC = () => {
 
   const getPhaseTitle = () => {
     switch (phase) {
-      case 'night': return '🌙 Night Phase';
-      case 'nightResolution': return '🌙 Night Resolution';
-      case 'day': return '☀️ Day Phase — Debate';
-      case 'voting': return '🗳️ Day Phase — Voting';
-      case 'dayResolution': return '☀️ Day Resolution';
-      case 'summary': return '📝 Summaries';
+      case 'night': return t.nightPhase;
+      case 'nightResolution': return t.nightResolution;
+      case 'day': return t.dayPhaseDebate;
+      case 'voting': return t.dayPhaseVoting;
+      case 'dayResolution': return t.dayResolution;
+      case 'summary': return t.summaries;
       default: return '';
     }
   };
@@ -91,9 +97,9 @@ const GameBoard: React.FC = () => {
     const { type, options } = pendingAction;
 
     const titles: Record<string, string> = {
-      eliminate: '🐺 Choose your target to eliminate tonight',
-      protect: '💊 Choose a player to protect tonight',
-      investigate: '🔮 Choose a player to investigate tonight',
+      eliminate: t.chooseEliminate,
+      protect: t.chooseProtect,
+      investigate: t.chooseInvestigate,
     };
 
     return (
@@ -118,7 +124,7 @@ const GameBoard: React.FC = () => {
           disabled={selectedTarget === null}
           onClick={handleConfirmAction}
         >
-          Confirm
+          {t.confirm}
         </button>
       </div>
     );
@@ -129,8 +135,8 @@ const GameBoard: React.FC = () => {
 
     return (
       <div className="action-panel vote-panel">
-        <h3>🗳️ Vote to exile a suspect</h3>
-        <p className="vote-hint">Your vote is private. Choose wisely!</p>
+        <h3>{t.voteToExile}</h3>
+        <p className="vote-hint">{t.voteHint}</p>
         <div className="action-targets">
           {pendingAction.options.map(id => {
             const p = players.find(pl => pl.id === id)!;
@@ -150,7 +156,7 @@ const GameBoard: React.FC = () => {
           disabled={selectedTarget === null}
           onClick={handleHumanVote}
         >
-          Cast Vote
+          {t.castVote}
         </button>
       </div>
     );
@@ -161,10 +167,10 @@ const GameBoard: React.FC = () => {
 
     return (
       <div className="action-panel debate-panel">
-        <h3>💬 It's your turn to speak! ({currentDebateTurn}/{MAX_DEBATE_TURNS})</h3>
+        <h3>{t.yourTurnToSpeak.replace('{current}', String(currentDebateTurn)).replace('{max}', String(MAX_DEBATE_TURNS))}</h3>
         <textarea
           className="debate-input"
-          placeholder="What do you want to say to the village?"
+          placeholder={t.whatToSay}
           value={debateMessage}
           onChange={e => setDebateMessage(e.target.value)}
           rows={3}
@@ -177,7 +183,7 @@ const GameBoard: React.FC = () => {
             disabled={!debateMessage.trim()}
             onClick={handleHumanDebate}
           >
-            Speak
+            {t.speak}
           </button>
         </div>
       </div>
@@ -190,9 +196,9 @@ const GameBoard: React.FC = () => {
     if (phase === 'night') {
       return (
         <div className="phase-control">
-          <p>The village sleeps... Night actions are being processed.</p>
+          <p>{t.villageSleeps}</p>
           <button className="action-btn secondary" onClick={advanceNight}>
-            Skip to Morning →
+            {t.skipToMorning}
           </button>
         </div>
       );
@@ -205,7 +211,7 @@ const GameBoard: React.FC = () => {
             {currentRoundData?.announcement}
           </div>
           <button className="action-btn" onClick={startDay}>
-            ☀️ Start Day Phase
+            {t.startDayPhase}
           </button>
         </div>
       );
@@ -215,14 +221,14 @@ const GameBoard: React.FC = () => {
       return (
         <div className="phase-control">
           <p>
-            Debate turn {currentDebateTurn}/{MAX_DEBATE_TURNS}
-            {currentDebateTurn >= MAX_DEBATE_TURNS ? ' — Time to vote!' : ''}
+            {t.debateTurn.replace('{current}', String(currentDebateTurn)).replace('{max}', String(MAX_DEBATE_TURNS))}
+            {currentDebateTurn >= MAX_DEBATE_TURNS ? t.timeToVote : ''}
           </p>
           <button
             className="action-btn"
             onClick={advanceDebate}
           >
-            {currentDebateTurn >= MAX_DEBATE_TURNS ? '🗳️ Proceed to Voting' : 'Next Debate Turn →'}
+            {currentDebateTurn >= MAX_DEBATE_TURNS ? t.proceedToVoting : t.nextDebateTurn}
           </button>
         </div>
       );
@@ -231,7 +237,7 @@ const GameBoard: React.FC = () => {
     if (phase === 'voting') {
       return (
         <div className="phase-control">
-          <p>AI players have cast their votes. Now it's your turn...</p>
+          <p>{t.aiVotedYourTurn}</p>
         </div>
       );
     }
@@ -243,7 +249,7 @@ const GameBoard: React.FC = () => {
             {currentRoundData?.announcement}
           </div>
           <button className="action-btn" onClick={nextRoundAction}>
-            🌙 Begin Next Round
+            {t.beginNextRound}
           </button>
         </div>
       );
@@ -261,32 +267,32 @@ const GameBoard: React.FC = () => {
         <div className="ended-card">
           <div className="ended-icon">{winner === 'Villagers' ? '🏘️' : '🐺'}</div>
           <h1 className="ended-title" style={{ color: winner === 'Villagers' ? '#4caf50' : '#f44336' }}>
-            {winner} Win!
+            {winner === 'Villagers' ? t.villagersWin : t.werewolvesWin}
           </h1>
           <p className="ended-result">
-            {isHumanWinner ? '🎉 Congratulations! You were on the winning team!' : '😔 Your team lost this time.'}
+            {isHumanWinner ? t.congratulations : t.teamLost}
           </p>
           <div className="ended-roles">
-            <h3>Final Roles:</h3>
+            <h3>{t.finalRoles}</h3>
             {players.map(p => (
               <div key={p.id} className="ended-role-entry">
                 <span>{p.avatar} {p.name}</span>
                 <span style={{ color: ROLE_COLORS[p.role] }}>
-                  {ROLE_ICONS[p.role]} {p.role}
+                  {ROLE_ICONS[p.role]} {t[p.role]}
                 </span>
-                {!p.isAlive && <span className="ended-dead">💀 Eliminated</span>}
+                {!p.isAlive && <span className="ended-dead">💀 {t.eliminated}</span>}
               </div>
             ))}
           </div>
           <div className="ended-buttons">
             <button className="action-btn" onClick={resetGame}>
-              🎮 Play Again
+              {t.playAgain}
             </button>
           </div>
         </div>
         {/* Full game log in ended state */}
         <div className="ended-log">
-          <h3>📜 Game History</h3>
+          <h3>{t.gameHistory}</h3>
           <GameLog rounds={rounds} players={players} humanPlayerId={humanPlayerId} showRoles={true} />
         </div>
       </div>
@@ -299,25 +305,28 @@ const GameBoard: React.FC = () => {
       <div className="board-header">
         <div className="header-left">
           <span className="wolf-logo">🐺</span>
-          <span className="game-title">Werewolf Arena</span>
-          <span className="round-badge">Round {currentRound}</span>
+          <span className="game-title">{t.appTitle}</span>
+          <span className="round-badge">{t.round.replace('{num}', String(currentRound))}</span>
         </div>
         <div className="header-right">
           <div className="your-role-badge" style={{ borderColor: ROLE_COLORS[humanPlayer?.role] }}>
             {humanPlayer && (
               <>
                 <span>{ROLE_ICONS[humanPlayer.role]}</span>
-                <span style={{ color: ROLE_COLORS[humanPlayer.role] }}>{humanPlayer.role}</span>
+                <span style={{ color: ROLE_COLORS[humanPlayer.role] }}>{t[humanPlayer.role]}</span>
               </>
             )}
           </div>
-          <button className="icon-btn" onClick={() => setShowLog(!showLog)} title="Game Log">
+          <button className="icon-btn" onClick={() => setShowLog(!showLog)} title={t.gameLog}>
             📜
           </button>
-          <button className="icon-btn" onClick={() => setShowRoles(!showRoles)} title="Show Roles (Debug)">
+          <button className="icon-btn" onClick={() => setShowRoles(!showRoles)} title={t.showRolesDebug}>
             🔍
           </button>
-          <button className="icon-btn danger" onClick={resetGame} title="Quit">
+          <button className="icon-btn" onClick={onOpenSettings} title={t.settings}>
+            ⚙️
+          </button>
+          <button className="icon-btn danger" onClick={resetGame} title={t.quit}>
             ✕
           </button>
         </div>
@@ -327,7 +336,7 @@ const GameBoard: React.FC = () => {
         {/* Left: Players */}
         <div className="board-players">
           <div className="section-title">
-            Players ({alive.length} alive)
+            {t.playersAlive.replace('{count}', String(alive.length))}
           </div>
           <div className="players-list">
             {players.map(p => (
@@ -372,7 +381,7 @@ const GameBoard: React.FC = () => {
         {showLog && (
           <div className="board-log">
             <div className="section-title">
-              📜 Game Log
+              {t.gameLog}
               <button className="close-log-btn" onClick={() => setShowLog(false)}>✕</button>
             </div>
             <div className="log-scroll">
