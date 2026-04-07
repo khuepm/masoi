@@ -1,0 +1,108 @@
+.role-reveal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.role-reveal-card {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 48px;
+  max-width: 440px;
+  width: 90%;
+  text-align: center;
+  color: white;
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.role-reveal-greeting {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 8px 0;
+}
+
+.role-reveal-label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0 0 24px 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.role-reveal-badge {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px 48px;
+  border: 3px solid;
+  border-radius: 20px;
+  margin-bottom: 24px;
+  background: rgba(255, 255, 255, 0.03);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+.role-reveal-icon {
+  font-size: 64px;
+}
+
+.role-reveal-title {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.role-reveal-description {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+  max-width: 320px;
+  margin: 0 auto 16px;
+}
+
+.role-reveal-warning {
+  font-size: 12px;
+  color: rgba(255, 220, 100, 0.7);
+  margin: 0 0 24px 0;
+}
+
+.role-reveal-btn {
+  border: none;
+  border-radius: 14px;
+  padding: 14px 40px;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.role-reveal-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.1);
+}

@@ -1,0 +1,129 @@
+.player-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.player-card.selectable {
+  cursor: pointer;
+}
+
+.player-card.selectable:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateX(4px);
+}
+
+.player-card.selected {
+  background: rgba(226, 185, 111, 0.2);
+  border-color: #e2b96f;
+}
+
+.player-card.dead {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.player-card.highlight-killed {
+  border-color: #f44336;
+  background: rgba(244, 67, 54, 0.15);
+  animation: flicker 0.5s ease 3;
+}
+
+.player-card.highlight-exiled {
+  border-color: #ff9800;
+  background: rgba(255, 152, 0, 0.15);
+}
+
+.player-card.highlight-protected {
+  border-color: #9c27b0;
+  background: rgba(156, 39, 176, 0.15);
+}
+
+.player-card.highlight-investigated {
+  border-color: #2196f3;
+  background: rgba(33, 150, 243, 0.15);
+}
+
+.player-card.highlight-suspect {
+  border-color: #ff9800;
+  background: rgba(255, 152, 0, 0.1);
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.player-avatar {
+  position: relative;
+  font-size: 28px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.death-overlay {
+  position: absolute;
+  font-size: 18px;
+  bottom: -4px;
+  right: -4px;
+}
+
+.status-badge {
+  position: absolute;
+  font-size: 14px;
+  top: -4px;
+  right: -8px;
+}
+
+.player-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.player-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.you-badge {
+  font-size: 9px;
+  background: #e2b96f;
+  color: #1a1a2e;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.player-role {
+  font-size: 11px;
+  margin-top: 2px;
+  font-weight: 600;
+}
+
+.player-status {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 2px;
+}
+
+.select-indicator {
+  color: #e2b96f;
+  font-size: 16px;
+  font-weight: bold;
+}
