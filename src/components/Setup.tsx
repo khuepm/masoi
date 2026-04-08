@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { SetupConfig, Role } from '../types/game';
-import { ROLE_ICONS, ROLE_DESCRIPTIONS } from '../utils/constants';
+import { ROLE_ICONS } from '../utils/constants';
+import { useLanguage } from '../context/LanguageContext';
 import './Setup.css';
 
 interface Props {
   onStart: (config: SetupConfig) => void;
+  onOpenSettings: () => void;
 }
 
-const Setup: React.FC<Props> = ({ onStart }) => {
+const Setup: React.FC<Props> = ({ onStart, onOpenSettings }) => {
+  const { t } = useLanguage();
   const [numPlayers, setNumPlayers] = useState(7);
   const [humanName, setHumanName] = useState('');
   const [humanRole, setHumanRole] = useState<Role | 'random'>('random');
@@ -20,31 +23,47 @@ const Setup: React.FC<Props> = ({ onStart }) => {
 
   const roles: Array<Role | 'random'> = ['random', 'Villager', 'Werewolf', 'Seer', 'Doctor'];
 
+  const roleDescriptions: Record<Role, string> = React.useMemo(() => ({
+    Villager: t.villagerDesc,
+    Werewolf: t.werewolfDesc,
+    Seer: t.seerDesc,
+    Doctor: t.doctorDesc,
+  }), [t]);
+
+  const getRoleName = (role: Role | 'random'): string => {
+    if (role === 'random') return t.random;
+    return t[role];
+  };
+
+  const wolvesCount = numPlayers <= 6 ? 1 : 2;
+  const villagersNum = numPlayers - wolvesCount - 2;
+
   return (
     <div className="setup-container">
       <div className="setup-card">
         <div className="setup-header">
           <span className="setup-wolf-icon">🐺</span>
-          <h1>Werewolf Arena</h1>
-          <p className="setup-subtitle">The Social Deduction Game</p>
+          <h1>{t.appTitle}</h1>
+          <p className="setup-subtitle">{t.appSubtitle}</p>
+          <button className="settings-icon-btn" onClick={onOpenSettings} title={t.settings}>⚙️</button>
         </div>
 
         <form onSubmit={handleSubmit} className="setup-form">
           <div className="form-group">
-            <label htmlFor="humanName">Your Name</label>
+            <label htmlFor="humanName">{t.yourName}</label>
             <input
               id="humanName"
               type="text"
               value={humanName}
               onChange={e => setHumanName(e.target.value)}
-              placeholder="Enter your name..."
+              placeholder={t.enterYourName}
               maxLength={20}
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="numPlayers">Number of Players</label>
+            <label htmlFor="numPlayers">{t.numberOfPlayers}</label>
             <div className="player-count-selector">
               {[6, 7, 8, 9, 10].map(n => (
                 <button
@@ -58,16 +77,21 @@ const Setup: React.FC<Props> = ({ onStart }) => {
               ))}
             </div>
             <p className="player-count-info">
-              {numPlayers} players: {numPlayers <= 6 ? '1 Werewolf' : '2 Werewolves'}, 1 Seer, 1 Doctor,{' '}
-              {numPlayers - (numPlayers <= 6 ? 1 : 2) - 2} Villager{numPlayers - (numPlayers <= 6 ? 1 : 2) - 2 !== 1 ? 's' : ''}
+              {t.playersInfo
+                .replace('{count}', String(numPlayers))
+                .replace('{wolves}', wolvesCount === 1 ? t.oneWerewolf : t.twoWerewolves)
+                .replace('{villagers}', villagersNum === 1
+                  ? t.villagerCount.replace('{count}', String(villagersNum))
+                  : t.villagersCount.replace('{count}', String(villagersNum))
+                )}
             </p>
             <p className="player-count-info" style={{marginTop: 4, color: 'rgba(255,255,255,0.35)'}}>
-              You + {numPlayers - 1} AI opponents
+              {t.youPlusAI.replace('{count}', String(numPlayers - 1))}
             </p>
           </div>
 
           <div className="form-group">
-            <label>Your Role</label>
+            <label>{t.yourRole}</label>
             <div className="role-selector">
               {roles.map(role => (
                 <button
@@ -79,27 +103,27 @@ const Setup: React.FC<Props> = ({ onStart }) => {
                   <span className="role-icon">
                     {role === 'random' ? '🎲' : ROLE_ICONS[role]}
                   </span>
-                  <span className="role-label">{role === 'random' ? 'Random' : role}</span>
+                  <span className="role-label">{getRoleName(role)}</span>
                 </button>
               ))}
             </div>
             {humanRole !== 'random' && (
-              <p className="role-description">{ROLE_DESCRIPTIONS[humanRole]}</p>
+              <p className="role-description">{roleDescriptions[humanRole]}</p>
             )}
           </div>
 
           <button type="submit" className="start-btn" disabled={!humanName.trim()}>
-            Start Game
+            {t.startGame}
           </button>
         </form>
 
         <div className="rules-section">
-          <h3>How to Play</h3>
+          <h3>{t.howToPlay}</h3>
           <ul>
-            <li>🌙 <strong>Night:</strong> Werewolves eliminate, Doctor protects, Seer investigates</li>
-            <li>☀️ <strong>Day:</strong> Players debate and vote to exile a suspect</li>
-            <li>🏘️ <strong>Villagers win</strong> by exiling all Werewolves</li>
-            <li>🐺 <strong>Werewolves win</strong> when they equal or outnumber Villagers</li>
+            <li>🌙 <strong>{t.ruleNight}</strong></li>
+            <li>☀️ <strong>{t.ruleDay}</strong></li>
+            <li>🏘️ <strong>{t.ruleVillagerWin}</strong></li>
+            <li>🐺 <strong>{t.ruleWerewolfWin}</strong></li>
           </ul>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Player } from '../types/game';
 import { ROLE_COLORS, ROLE_ICONS } from '../utils/constants';
+import { useLanguage } from '../context/LanguageContext';
 import './PlayerCard.css';
 
 interface Props {
@@ -20,6 +21,7 @@ const PlayerCard: React.FC<Props> = ({
   onClick,
   highlight,
 }) => {
+  const { t } = useLanguage();
   const roleColor = showRole ? ROLE_COLORS[player.role] : '#888';
   const roleIcon = ROLE_ICONS[player.role];
 
@@ -37,14 +39,14 @@ const PlayerCard: React.FC<Props> = ({
       <div className="player-info">
         <div className="player-name">
           {player.name}
-          {player.isHuman && <span className="you-badge">YOU</span>}
+          {player.isHuman && <span className="you-badge">{t.you}</span>}
         </div>
         {showRole && (
           <div className="player-role" style={{ color: roleColor }}>
-            {roleIcon} {player.role}
+            {roleIcon} {t[player.role]}
           </div>
         )}
-        {!player.isAlive && <div className="player-status">Eliminated</div>}
+        {!player.isAlive && <div className="player-status">{t.playerEliminated}</div>}
       </div>
       {isSelectable && (
         <div className="select-indicator">

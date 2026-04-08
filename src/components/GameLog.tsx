@@ -1,6 +1,7 @@
 import React from 'react';
 import { Round, Player } from '../types/game';
 import { ROLE_COLORS, ROLE_ICONS } from '../utils/constants';
+import { useLanguage } from '../context/LanguageContext';
 import BidBar from './BidBar';
 import './GameLog.css';
 
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const GameLog: React.FC<Props> = ({ rounds, players, humanPlayerId, showRoles }) => {
+  const { t } = useLanguage();
   const getPlayer = (id: number | null) => id !== null ? players.find(p => p.id === id) : null;
 
   return (
@@ -20,18 +22,18 @@ const GameLog: React.FC<Props> = ({ rounds, players, humanPlayerId, showRoles })
         <div key={ri} className="log-round">
           {/* Night Header */}
           <div className="log-phase-header night-header">
-            <span>🌙 Round {round.roundNumber} — Night</span>
+            <span>{t.roundNight.replace('{num}', String(round.roundNumber))}</span>
           </div>
 
           {/* Night Actions */}
           <div className="log-night-actions">
             {round.killedId !== null ? (
               <div className="log-event killed">
-                💀 {getPlayer(round.killedId)?.name} was eliminated by the Werewolves
+                {t.eliminatedByWerewolves.replace('{name}', getPlayer(round.killedId)?.name ?? '')}
               </div>
             ) : round.eliminatedId !== null ? (
               <div className="log-event saved">
-                🛡️ The Doctor saved the Werewolves' target — no one was eliminated!
+                {t.doctorSaved}
               </div>
             ) : null}
 
@@ -42,9 +44,9 @@ const GameLog: React.FC<Props> = ({ rounds, players, humanPlayerId, showRoles })
                 const investigated = getPlayer(round.investigatedId);
                 return (
                   <div className="log-event investigated">
-                    🔮 You investigated {investigated?.name} → They are a{' '}
+                    {t.youInvestigated.replace('{name}', investigated?.name ?? '')}{' '}
                     <span style={{ color: ROLE_COLORS[round.investigationResult!], fontWeight: 700 }}>
-                      {ROLE_ICONS[round.investigationResult!]} {round.investigationResult}
+                      {ROLE_ICONS[round.investigationResult!]} {t[round.investigationResult!]}
                     </span>
                   </div>
                 );
@@ -55,7 +57,7 @@ const GameLog: React.FC<Props> = ({ rounds, players, humanPlayerId, showRoles })
 
           {/* Day Header */}
           <div className="log-phase-header day-header">
-            <span>☀️ Round {round.roundNumber} — Day</span>
+            <span>{t.roundDay.replace('{num}', String(round.roundNumber))}</span>
           </div>
 
           {/* Debate */}
@@ -73,10 +75,10 @@ const GameLog: React.FC<Props> = ({ rounds, players, humanPlayerId, showRoles })
                     <div className="debate-bubble">
                       <span className="debate-speaker">
                         {entry.playerName}
-                        {isHuman && <span className="you-tag">YOU</span>}
+                        {isHuman && <span className="you-tag">{t.you}</span>}
                         {showRoles && speaker && (
                           <span style={{ color: ROLE_COLORS[speaker.role] }}>
-                            {' '}({speaker.role})
+                            {' '}({t[speaker.role]})
                           </span>
                         )}
                       </span>
@@ -91,7 +93,7 @@ const GameLog: React.FC<Props> = ({ rounds, players, humanPlayerId, showRoles })
           {/* Votes */}
           {round.votes.length > 0 && (
             <div className="log-votes">
-              <div className="log-section-title">🗳️ Votes</div>
+              <div className="log-section-title">{t.votes}</div>
               {round.votes.map((vote, vi) => (
                 <div key={vi} className="log-vote-entry">
                   <span className="vote-player">{vote.voterName}</span>
@@ -105,24 +107,24 @@ const GameLog: React.FC<Props> = ({ rounds, players, humanPlayerId, showRoles })
           {/* Exile result */}
           {round.exiledId !== null && (
             <div className="log-event exiled">
-              ⛔ {getPlayer(round.exiledId)?.name} was exiled by the village!
+              {t.exiledByVillage.replace('{name}', getPlayer(round.exiledId)?.name ?? '')}
               {showRoles && (
                 <span style={{ color: ROLE_COLORS[getPlayer(round.exiledId)?.role ?? 'Villager'] }}>
-                  {' '}({getPlayer(round.exiledId)?.role})
+                  {' '}({t[getPlayer(round.exiledId)?.role ?? 'Villager']})
                 </span>
               )}
             </div>
           )}
           {round.exiledId === null && round.votes.length > 0 && (
             <div className="log-event no-exile">
-              🤷 No majority reached — no one was exiled.
+              {t.noMajority}
             </div>
           )}
 
           {/* Summaries */}
           {round.summaries.length > 0 && (
             <div className="log-summaries">
-              <div className="log-section-title">📝 End-of-Round Summaries</div>
+              <div className="log-section-title">{t.endOfRoundSummaries}</div>
               {round.summaries.map((s, si) => (
                 <div key={si} className="log-summary-entry">
                   <span className="summary-player">{s.playerName}:</span>
