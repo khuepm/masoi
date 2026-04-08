@@ -1,0 +1,221 @@
+.user-settings-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.user-settings-card {
+  background: linear-gradient(145deg, #1e1e2e, #2a2a3e);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 32px;
+  width: 90%;
+  max-width: 520px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  color: #e0e0e0;
+}
+
+.user-settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-settings-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.user-settings-close-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.user-settings-close-btn:hover {
+  background: rgba(255, 100, 100, 0.3);
+}
+
+.user-settings-section {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.user-settings-section:last-of-type {
+  border-bottom: none;
+}
+
+.user-settings-section h3 {
+  margin: 0 0 12px;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.user-settings-description {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.user-info {
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.user-email {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+}
+
+.llm-field {
+  margin-bottom: 16px;
+}
+
+.llm-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.llm-icon {
+  font-size: 1.1rem;
+}
+
+.llm-connected {
+  margin-left: auto;
+  color: #4caf50;
+  font-size: 0.8rem;
+  font-weight: normal;
+}
+
+.llm-input-wrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.llm-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 0.9rem;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  transition: border-color 0.2s;
+  outline: none;
+  min-width: 0;
+}
+
+.llm-input:focus {
+  border-color: #64b5f6;
+}
+
+.llm-input::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.llm-toggle-visibility {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: #fff;
+  width: 42px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.llm-toggle-visibility:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.user-settings-save-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4a90d9, #6c5ce7);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  margin-top: 8px;
+}
+
+.user-settings-save-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.user-settings-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.user-settings-back-btn {
+  padding: 10px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #e0e0e0;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.user-settings-back-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.user-settings-signout-btn {
+  padding: 10px 24px;
+  border: 1px solid rgba(255, 100, 100, 0.3);
+  border-radius: 12px;
+  background: rgba(255, 100, 100, 0.1);
+  color: #ff8a8a;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.user-settings-signout-btn:hover {
+  background: rgba(255, 100, 100, 0.2);
+  border-color: rgba(255, 100, 100, 0.5);
+}

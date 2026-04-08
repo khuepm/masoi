@@ -7,9 +7,10 @@ import './Setup.css';
 interface Props {
   onStart: (config: SetupConfig) => void;
   onOpenSettings: () => void;
+  onOpenUserSettings?: () => void;
 }
 
-const Setup: React.FC<Props> = ({ onStart, onOpenSettings }) => {
+const Setup: React.FC<Props> = ({ onStart, onOpenSettings, onOpenUserSettings }) => {
   const { t } = useLanguage();
   const [numPlayers, setNumPlayers] = useState(7);
   const [humanName, setHumanName] = useState('');
@@ -46,6 +47,9 @@ const Setup: React.FC<Props> = ({ onStart, onOpenSettings }) => {
           <h1>{t.appTitle}</h1>
           <p className="setup-subtitle">{t.appSubtitle}</p>
           <button className="settings-icon-btn" onClick={onOpenSettings} title={t.settings}>⚙️</button>
+          {onOpenUserSettings && (
+            <button className="settings-icon-btn" onClick={onOpenUserSettings} title={t.userSettings}>👤</button>
+          )}
         </div>
 
         <form onSubmit={handleSubmit} className="setup-form">
