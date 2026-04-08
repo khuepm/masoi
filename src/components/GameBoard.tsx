@@ -10,9 +10,10 @@ import './GameBoard.css';
 
 interface Props {
   onOpenSettings: () => void;
+  onOpenUserSettings?: () => void;
 }
 
-const GameBoard: React.FC<Props> = ({ onOpenSettings }) => {
+const GameBoard: React.FC<Props> = ({ onOpenSettings, onOpenUserSettings }) => {
   const { t } = useLanguage();
   const {
     state,
@@ -326,6 +327,11 @@ const GameBoard: React.FC<Props> = ({ onOpenSettings }) => {
           <button className="icon-btn" onClick={onOpenSettings} title={t.settings}>
             ⚙️
           </button>
+          {onOpenUserSettings && (
+            <button className="icon-btn" onClick={onOpenUserSettings} title={t.userSettings} aria-label={t.userSettings}>
+              👤
+            </button>
+          )}
           <button className="icon-btn danger" onClick={resetGame} title={t.quit}>
             ✕
           </button>

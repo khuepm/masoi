@@ -131,6 +131,29 @@ const vi: Translations = {
   noMajorityNoExile: '🗳️ Không đạt đa số. Không ai bị trục xuất hôm nay.',
   debateMessage: '💬 {name}: "{message}"',
   debateMessageYou: '💬 {name} (Bạn): "{message}"',
+
+  // Auth
+  signIn: 'Đăng Nhập',
+  signUp: 'Đăng Ký',
+  email: 'Email',
+  password: 'Mật Khẩu',
+  enterEmail: 'Nhập email của bạn...',
+  enterPassword: 'Nhập mật khẩu của bạn...',
+  alreadyHaveAccount: 'Đã có tài khoản?',
+  dontHaveAccount: 'Chưa có tài khoản?',
+  signUpSuccess: 'Tạo tài khoản thành công! Vui lòng kiểm tra email để xác nhận, sau đó đăng nhập.',
+  signOutBtn: 'Đăng Xuất',
+
+  // User Settings
+  userSettings: 'Cài Đặt Người Dùng',
+  account: 'Tài Khoản',
+  llmConnections: 'Kết Nối LLM',
+  llmConnectionsDesc: 'Kết nối API key để sử dụng các mô hình AI cho trải nghiệm chơi tốt hơn. Các key được lưu trữ cục bộ trên thiết bị của bạn.',
+  connected: 'Đã Kết Nối',
+  saveSettings: 'Lưu Cài Đặt',
+  saved: 'Đã Lưu',
+  show: 'Hiện',
+  hide: 'Ẩn',
 };
 
 export default vi;

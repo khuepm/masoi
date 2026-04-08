@@ -129,6 +129,29 @@ const en = {
   noMajorityNoExile: '🗳️ No majority reached. No one was exiled today.',
   debateMessage: '💬 {name}: "{message}"',
   debateMessageYou: '💬 {name} (You): "{message}"',
+
+  // Auth
+  signIn: 'Sign In',
+  signUp: 'Sign Up',
+  email: 'Email',
+  password: 'Password',
+  enterEmail: 'Enter your email...',
+  enterPassword: 'Enter your password...',
+  alreadyHaveAccount: 'Already have an account?',
+  dontHaveAccount: "Don't have an account?",
+  signUpSuccess: 'Account created! Please check your email to confirm, then sign in.',
+  signOutBtn: 'Sign Out',
+
+  // User Settings
+  userSettings: 'User Settings',
+  account: 'Account',
+  llmConnections: 'LLM Connections',
+  llmConnectionsDesc: 'Connect your API keys to use AI models for enhanced gameplay. Your keys are stored locally on your device.',
+  connected: 'Connected',
+  saveSettings: 'Save Settings',
+  saved: 'Saved',
+  show: 'Show',
+  hide: 'Hide',
 };
 
 export type TranslationKeys = keyof typeof en;
