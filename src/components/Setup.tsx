@@ -46,9 +46,9 @@ const Setup: React.FC<Props> = ({ onStart, onOpenSettings, onOpenUserSettings })
           <span className="setup-wolf-icon">🐺</span>
           <h1>{t.appTitle}</h1>
           <p className="setup-subtitle">{t.appSubtitle}</p>
-          <button className="settings-icon-btn" onClick={onOpenSettings} title={t.settings}>⚙️</button>
+          <button className="settings-icon-btn" onClick={onOpenSettings} title={t.settings} aria-label={t.settings}>⚙️</button>
           {onOpenUserSettings && (
-            <button className="settings-icon-btn" onClick={onOpenUserSettings} title={t.userSettings}>👤</button>
+            <button className="settings-icon-btn" onClick={onOpenUserSettings} title={t.userSettings} aria-label={t.userSettings}>👤</button>
           )}
         </div>
 

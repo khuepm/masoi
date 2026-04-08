@@ -328,7 +328,7 @@ const GameBoard: React.FC<Props> = ({ onOpenSettings, onOpenUserSettings }) => {
             ⚙️
           </button>
           {onOpenUserSettings && (
-            <button className="icon-btn" onClick={onOpenUserSettings} title={t.userSettings}>
+            <button className="icon-btn" onClick={onOpenUserSettings} title={t.userSettings} aria-label={t.userSettings}>
               👤
             </button>
           )}
